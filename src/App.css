@@ -1,0 +1,128 @@
+#root {
+  max-width: 70%;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.contact-button {
+  margin: 1em;
+  padding: 0.75em 1.5em;
+  font-size: 1em;
+  color: white;
+  background-color: #0073b1; /* LinkedIn blue */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.article-card {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+  transition: box-shadow 0.3s ease;
+}
+
+.article {
+  padding: 2rem;
+  font-size: 2rem;
+  line-height: 1.6;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Markdown styling */
+.article code {
+  background-color: #f4f4f4;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.article blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #666;
+  font-style: italic;
+}
+
+.article .custom-blockquote {
+  border-left: 4px solid #0073b1; /* LinkedIn blue */
+  padding-left: 1rem;
+  margin: 1rem 0;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.experiences {
+  padding: 2rem;
+  text-align: left;
+}
+
+.experiences-content h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.experience-block {
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: left;
+  transition: box-shadow 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+@media (prefers-color-scheme: dark) {
+  .experience-block {
+    background-color: #333;
+    border-color: #555;
+  }
+}
+
+.experience-block:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .experience-block:hover {
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+  }
+}
+
+.experience-block h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.experience-block h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.experience-block p {
+  line-height: 1.6;
+}
