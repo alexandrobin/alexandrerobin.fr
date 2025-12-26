@@ -2,7 +2,7 @@
 ---
 title: How I Scraped 7000 Articles From a Newspaper Website Using Node
 date: 2017-12-20
-excerpt: 
+excerpt: I explain how I built a Node.js scraper to collect and structure over 7,000 newspaper articles behind a paywall.
 ---
 ```
 # How I Scraped 7000 Articles From a Newspaper Website Using Node

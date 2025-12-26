@@ -2,7 +2,7 @@
 ---
 title: How I built an HR Slack Bot with Node and Botkit
 date: 2018-09-18
-excerpt: How I built an HR slack Bot for my company
+excerpt: I walk through how I built an HR Slack bot using Node.js, Botkit, and Express to automate onboarding, reminders, and more.”
 ---
 ```
 

@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router'
 
+interface Article {
+    id: string;
+    slug: string;
+    title: string;
+    date: string;
+    excerpt: string;
+}
+
 function Articles() {
     const [articles, setArticles] = useState<Article[]>([])
     const [loading, setLoading] = useState(true)

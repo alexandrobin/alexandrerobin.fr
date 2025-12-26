@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown, { type Components } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -16,7 +16,7 @@ function Article() {
                 const path = `/src/articles/${slug}.md`
                 const importFn = markdownFiles[path]
                 if (importFn) {
-                    const rawContent = await importFn()
+                    const rawContent = await importFn() as string
                     // Remove frontmatter (YAML metadata between ---), including any markdown code blocks
                     const trimmedContent = rawContent.trimStart()
                     const contentWithoutFrontmatter = trimmedContent.replace(/^```\n---[\s\S]*?---\n```\n/, '').replace(/^---[\s\S]*?---\n/, '').replace(/```\s*$/, '')
@@ -37,31 +37,28 @@ function Article() {
         }
     }, [slug])
 
-    const components = {
-        code({ inline, className, children, ...props }: { inline?: boolean; className?: string; children: React.ReactNode; [key: string]: unknown }) {
+    const components: Partial<Components> = {
+        code: (props: any) => {
+            const { inline, className, children, ...rest } = props
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
                 <SyntaxHighlighter
                     style={oneDark}
                     language={match[1]}
                     PreTag="div"
-                    {...props}
+                    {...rest}
                 >
                     {String(children).replace(/\n$/, '')}
                 </SyntaxHighlighter>
             ) : (
-                <code className={className} {...props}>
+                <code className={className} {...rest}>
                     {children}
                 </code>
             )
         },
-        blockquote({ children, ...props }: { children: React.ReactNode; [key: string]: unknown }) {
-            return (
-                <blockquote className="custom-blockquote" {...props}>
-                    {children}
-                </blockquote>
-            )
-        },
+        blockquote: (props) => (
+            <blockquote className="custom-blockquote" {...props} />
+        ),
     }
 
     if (loading) return <div>Loading...</div>

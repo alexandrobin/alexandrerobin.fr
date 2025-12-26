@@ -21,7 +21,7 @@ I enjoy working at the intersection of people, systems and execution, especially
                 </p>
             </div>
 
-            <button className="contact-button" onClick={() => window.location.href = 'mailto:inserticloudmail"@gmail.com'}> Contact Me </button>
+            <button className="contact-button" onClick={() => window.location.href = 'mailto:hello@alexandrerobin.fr'}> Contact Me </button>
                 <button className="contact-button" onClick={() => window.location.href = 'https://www.linkedin.com/in/robinalexandre/'}> LinkedIn </button>
         </section>
         </>
