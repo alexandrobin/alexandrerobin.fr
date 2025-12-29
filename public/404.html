@@ -1,18 +1,22 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/ico" href="/favicon_io/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8">
     <title>alexandrerobin.fr</title>
     <script>
-      // GitHub Pages SPA redirect handler
-      // This script takes the current path and redirects to index.html with the path as a query parameter
-      sessionStorage.redirect = location.href;
+      // Store the path and redirect to the base URL
+      // React Router will pick up the correct route
+      var path = window.location.pathname;
+      var search = window.location.search;
+      var hash = window.location.hash;
+      
+      // Redirect to base URL, preserving the path
+      window.location.replace(
+        window.location.origin + 
+        '/?redirect=' + encodeURIComponent(path + search + hash)
+      );
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -5,17 +5,6 @@
     <link rel="icon" type="image/ico" href="/favicon_io/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>alexandrerobin.fr</title>
-    <script>
-      // GitHub Pages SPA redirect handler
-      // Check if we were redirected from 404.html
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-    </script>
   </head>
   <body>
     <div id="root"></div>
