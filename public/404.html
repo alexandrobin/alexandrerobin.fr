@@ -7,14 +7,8 @@
     <title>alexandrerobin.fr</title>
     <script>
       // GitHub Pages SPA redirect handler
-      // Check if we were redirected from 404.html
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
+      // This script takes the current path and redirects to index.html with the path as a query parameter
+      sessionStorage.redirect = location.href;
     </script>
   </head>
   <body>
