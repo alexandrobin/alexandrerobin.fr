@@ -44,13 +44,80 @@
   text-align: left;
 }
 
+/* Ensure images in markdown never overflow the content width */
+.article img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto; /* center and add breathing space */
+}
+
+/* Optional: keep figures tidy if used in markdown */
+.article figure {
+  margin: 1.5rem auto;
+}
+
+/* If images are wrapped in links, keep them responsive */
+.article a > img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Markdown styling */
-.article code {
+.article .md-inline-code {
   background-color: #f4f4f4;
   padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-family: 'Courier New', monospace;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9em;
+  display: inline; /* ensure inline spans never break onto their own line */
+}
+
+.article .md-codeblock {
+  background-color: #f6f8fa; /* Light default */
+  color: #24292e;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  overflow: auto;
+  margin: 1rem 0;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+.article .md-codeblock code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95em;
+  white-space: pre;
+}
+
+/* Make sure SyntaxHighlighter blocks align visually with custom blocks */
+.article .md-codeblock,
+.article .token-line,
+.article pre:has(code) {
+  border: 0;
+}
+
+@media (prefers-color-scheme: light) {
+  .article .md-codeblock {
+    background-color: #f6f8fa; /* GitHub light */
+    color: #24292e;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+  .article .md-inline-code {
+    background-color: #f6f8fa;
+    color: inherit;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .article .md-codeblock {
+    background-color: #0d1117; /* GitHub dark */
+    color: #c9d1d9;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+  .article .md-inline-code {
+    background-color: #161b22; /* subtle dark chip */
+    color: #c9d1d9;
+  }
 }
 
 .article blockquote {

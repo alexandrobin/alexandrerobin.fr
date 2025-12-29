@@ -38,20 +38,32 @@ function Article() {
     }, [slug])
 
     const components: Partial<Components> = {
+        // Handle block code via <pre> so inline spans never get misclassified
+        pre: (preProps: any) => {
+            const child = Array.isArray(preProps.children) ? preProps.children[0] : preProps.children
+            const codeProps = (child && typeof child === 'object') ? (child as any).props : undefined
+            const className = codeProps?.className || ''
+            const codeString = String(codeProps?.children ?? '').replace(/\n$/, '')
+            const match = /language-(\w+)/.exec(className)
+
+            if (match) {
+                return (
+                    <SyntaxHighlighter style={oneDark} language={match[1]} PreTag="div">
+                        {codeString}
+                    </SyntaxHighlighter>
+                )
+            }
+            return (
+                <pre className="md-codeblock">
+                    <code className={className}>{codeString}</code>
+                </pre>
+            )
+        },
+        // Inline code spans only
         code: (props: any) => {
-            const { inline, className, children, ...rest } = props
-            const match = /language-(\w+)/.exec(className || '')
-            return !inline && match ? (
-                <SyntaxHighlighter
-                    style={oneDark}
-                    language={match[1]}
-                    PreTag="div"
-                    {...rest}
-                >
-                    {String(children).replace(/\n$/, '')}
-                </SyntaxHighlighter>
-            ) : (
-                <code className={className} {...rest}>
+            const { className, children, ...rest } = props
+            return (
+                <code className={`md-inline-code ${className ?? ''}`} {...rest}>
                     {children}
                 </code>
             )
