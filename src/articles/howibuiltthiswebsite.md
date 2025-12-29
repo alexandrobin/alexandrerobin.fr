@@ -29,20 +29,13 @@ For this project, I'll use:
 *   TypeScript for type safety
 *   GitHub Actions for continuous deployment
 
-React is:
-> A JavaScript library for building user interfaces. It's component-based, making it easy to create reusable UI elements.
+React is a JavaScript library for building user interfaces. It's component-based, making it easy to create reusable UI elements.
 
-Vite provides:
+Vite provides a fast build tool that leverages ES modules for instant server start and lightning-fast hot module replacement.
 
-> A fast build tool that leverages ES modules for instant server start and lightning-fast hot module replacement.
+TypeScript adds static typing to JavaScript, helping catch errors early and improve code quality.
 
-TypeScript adds:
-
-> Static typing to JavaScript, helping catch errors early and improve code quality.
-
-GitHub Workflows allow:
-
-> Automating the build and deployment process directly from the repository.
+GitHub Workflows allow automating the build and deployment process directly from the repository.
 
 I chose this stack because it's modern, fast, and well-suited for a personal project. Plus, it's what many developers are using today.
 
@@ -79,7 +72,7 @@ The app is built around a few key components:
 *   **Hero**: The landing section with my introduction
 *   **Articles**: A list of my blog posts
 *   **Experiences**: My professional background
-*   **Footer**: Contact information and links
+*   **Footer**: Info on the Tech Stack & Links
 
 Each component is a separate file in the `components/` folder. For example, the Articles component reads the Markdown files and renders them:
 
