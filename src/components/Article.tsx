@@ -1,12 +1,20 @@
 import { useState, useEffect } from 'react'
 import { Link, useParams } from 'react-router'
+import { Helmet } from 'react-helmet-async'
 import ReactMarkdown, { type Components } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
+interface ArticleMetadata {
+    title: string
+    date?: string
+    excerpt?: string
+}
+
 function Article() {
     const { slug } = useParams<{ slug: string }>()
     const [content, setContent] = useState<string>('')
+    const [metadata, setMetadata] = useState<ArticleMetadata>({ title: 'Article' })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -17,9 +25,29 @@ function Article() {
                 const importFn = markdownFiles[path]
                 if (importFn) {
                     const rawContent = await importFn() as string
-                    // Remove frontmatter (YAML metadata between ---), including any markdown code blocks
+                    
+                    // Extract frontmatter metadata
                     const trimmedContent = rawContent.trimStart()
-                    const contentWithoutFrontmatter = trimmedContent.replace(/^```\n---[\s\S]*?---\n```\n/, '').replace(/^---[\s\S]*?---\n/, '').replace(/```\s*$/, '')
+                    const frontmatterMatch = trimmedContent.match(/^---\n([\s\S]*?)\n---/)
+                    
+                    if (frontmatterMatch) {
+                        const frontmatter = frontmatterMatch[1]
+                        const titleMatch = frontmatter.match(/title:\s*(.+)/)
+                        const excerptMatch = frontmatter.match(/excerpt:\s*(.+)/)
+                        const dateMatch = frontmatter.match(/date:\s*(.+)/)
+                        
+                        setMetadata({
+                            title: titleMatch ? titleMatch[1].trim() : slug || 'Article',
+                            excerpt: excerptMatch ? excerptMatch[1].trim() : undefined,
+                            date: dateMatch ? dateMatch[1].trim() : undefined,
+                        })
+                    }
+                    
+                    // Remove frontmatter (YAML metadata between ---), including any markdown code blocks
+                    const contentWithoutFrontmatter = trimmedContent
+                        .replace(/^```\n---[\s\S]*?---\n```\n/, '')
+                        .replace(/^---[\s\S]*?---\n/, '')
+                        .replace(/```\s*$/, '')
                     setContent(contentWithoutFrontmatter)
                 } else {
                     setContent('Article not found')
@@ -75,8 +103,31 @@ function Article() {
 
     if (loading) return <div>Loading...</div>
 
+    const articleUrl = `https://alexandrerobin.fr/article/${slug}`
+    const articleImage = 'https://alexandrerobin.fr/assets/preview.png' // You can customize per article
+
     return (
         <>
+            <Helmet>
+                <title>{metadata.title} - Alexandre Robin</title>
+                <meta name="description" content={metadata.excerpt || metadata.title} />
+                
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={articleUrl} />
+                <meta property="og:title" content={metadata.title} />
+                <meta property="og:description" content={metadata.excerpt || metadata.title} />
+                <meta property="og:image" content={articleImage} />
+                {metadata.date && <meta property="article:published_time" content={metadata.date} />}
+                
+                {/* Twitter */}
+                <meta property="twitter:card" content="summary_large_image" />
+                <meta property="twitter:url" content={articleUrl} />
+                <meta property="twitter:title" content={metadata.title} />
+                <meta property="twitter:description" content={metadata.excerpt || metadata.title} />
+                <meta property="twitter:image" content={articleImage} />
+            </Helmet>
+            
             <Link key={"back"} to={"/"}>
                 <p>{"Back"}</p>
             </Link>

@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router"
+import { HelmetProvider } from 'react-helmet-async'
 import App from './App.tsx'
 import Article from './components/Article.tsx'
 import './index.css'
@@ -13,10 +14,12 @@ if (redirect) {
 }
 
 createRoot(document.getElementById('root')!).render(
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/article/:slug" element={<Article />} />
-      </Routes>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/article/:slug" element={<Article />} />
+        </Routes>
+      </BrowserRouter>
+    </HelmetProvider>
 )
