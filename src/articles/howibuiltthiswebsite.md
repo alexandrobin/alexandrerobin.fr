@@ -204,6 +204,33 @@ npx surge ./dist alexandrerobin-preview.surge.sh
 
 This gives me a temporary, CDN-served URL to validate assets, routing, and headers as they would behave in production—without touching Cloudflare settings or purging its cache.
 
+### Making articles shareable on social media
+
+One challenge with single-page applications (SPAs) like this one is that social media platforms struggle to preview your links. When you share an article on LinkedIn or Twitter, they expect to find a description and an image immediately in the page's HTML—but React builds everything with JavaScript after the page loads.
+
+To solve this, I added two complementary approaches:
+
+**Open Graph meta tags**: These are special HTML tags that tell social platforms what to display. In my main `index.html`, I added default tags for the homepage:
+
+```html
+<meta property="og:title" content="Alexandre Robin - Developer" />
+<meta property="og:description" content="Personal website and blog..." />
+<meta property="og:image" content="https://alexandrerobin.fr/assets/website_main.png" />
+```
+
+**Pre-rendered article pages**: Since crawlers don't execute JavaScript, I created a Node.js script (`generate-meta.js`) that runs after each build. It reads all my markdown articles, extracts their metadata (title, excerpt, image), and generates a static HTML file for each article with the proper meta tags already in place.
+
+For example, when someone shares `alexandrerobin.fr/article/howibuiltthiswebsite`, LinkedIn's crawler finds a pre-rendered HTML file with all the article's metadata visible immediately—no JavaScript needed. Meanwhile, real visitors still get the full React experience.
+
+The script runs automatically as part of the build:
+
+```json
+"scripts": {
+  "build": "tsc -b && vite build && node generate-meta.js"
+}
+```
+
+This approach gave me the best of both worlds: a fast, modern React app for users, and crawler-friendly static HTML for social platforms. You can verify your links work properly using tools like LinkedIn's Post Inspector or Facebook's Sharing Debugger before posting.
 
 ### Conclusion
 
