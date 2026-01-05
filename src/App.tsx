@@ -12,12 +12,12 @@ function App() {
   //const [count, setCount] = useState(0)
 
   return (
-    <>
+    <main>
       <Hero/>
       <Experiences/>
       <Articles/>
       <Footer/>
-    </>
+    </main>
   )
 }
 

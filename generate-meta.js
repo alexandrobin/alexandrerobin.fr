@@ -33,6 +33,29 @@ function generateHTML(slug, metadata) {
     // Use article-specific image if available, otherwise use default
     const imageUrl = metadata.image || 'https://alexandrerobin.fr/assets/website_main.png';
     
+    // Generate structured data for article
+    const structuredData = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": metadata.title,
+        "description": metadata.excerpt || metadata.title,
+        "image": imageUrl,
+        "datePublished": metadata.date || new Date().toISOString(),
+        "author": {
+            "@type": "Person",
+            "name": "Alexandre Robin",
+            "url": "https://alexandrerobin.fr"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Alexandre Robin"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": articleUrl
+        }
+    };
+    
     return `<!doctype html>
 <html lang="en">
   <head>
@@ -41,6 +64,7 @@ function generateHTML(slug, metadata) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${metadata.title} - Alexandre Robin</title>
     <meta name="description" content="${metadata.excerpt || metadata.title}" />
+    <link rel="canonical" href="${articleUrl}" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="article" />
@@ -56,6 +80,11 @@ function generateHTML(slug, metadata) {
     <meta property="twitter:title" content="${metadata.title}" />
     <meta property="twitter:description" content="${metadata.excerpt || metadata.title}" />
     <meta property="twitter:image" content="${imageUrl}" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    ${JSON.stringify(structuredData, null, 2)}
+    </script>
     
     <script type="module" crossorigin src="/assets/index.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index.css">
