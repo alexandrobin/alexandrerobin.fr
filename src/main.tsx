@@ -1,9 +1,12 @@
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from "react-router"
 import { HelmetProvider } from 'react-helmet-async'
+import { lazy, Suspense } from 'react'
 import App from './App.tsx'
-import Article from './components/Article.tsx'
 import './index.css'
+
+// Lazy load Article component to reduce initial bundle size
+const Article = lazy(() => import('./components/Article.tsx'))
 
 // Handle GitHub Pages 404 redirect
 const params = new URLSearchParams(window.location.search);
@@ -18,7 +21,11 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/article/:slug" element={<Article />} />
+          <Route path="/article/:slug" element={
+            <Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading article...</div>}>
+              <Article />
+            </Suspense>
+          } />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
