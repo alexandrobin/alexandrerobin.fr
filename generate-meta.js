@@ -67,6 +67,37 @@ function generateHTML(slug, metadata) {
 `;
 }
 
+// Generate sitemap.xml
+function generateSitemap(articles) {
+    const baseUrl = 'https://alexandrerobin.fr';
+    const currentDate = new Date().toISOString().split('T')[0];
+    
+    let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${baseUrl}/</loc>
+    <lastmod>${currentDate}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+`;
+    
+    // Add each article
+    articles.forEach(article => {
+        const articleDate = article.metadata.date || currentDate;
+        sitemap += `  <url>
+    <loc>${baseUrl}/article/${article.slug}</loc>
+    <lastmod>${articleDate}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+    });
+    
+    sitemap += `</urlset>`;
+    return sitemap;
+}
+
 // Main function
 async function generateMetaPages() {
     // Ensure dist/article directory exists
@@ -96,10 +127,15 @@ async function generateMetaPages() {
     
     console.log(`Generating meta pages for ${files.length} articles...`);
     
+    const articlesData = [];
+    
     for (const file of files) {
         const slug = file.replace('.md', '');
         const content = fs.readFileSync(path.join(articlesDir, file), 'utf-8');
         const metadata = parseFrontmatter(content);
+        
+        // Store article data for sitemap
+        articlesData.push({ slug, metadata });
         
         // Create article directory
         const articleDir = path.join(distDir, slug);
@@ -113,6 +149,12 @@ async function generateMetaPages() {
         
         console.log(`✓ Generated ${slug}/index.html`);
     }
+    
+    // Generate sitemap.xml
+    const sitemap = generateSitemap(articlesData);
+    const sitemapPath = path.join(__dirname, 'dist', 'sitemap.xml');
+    fs.writeFileSync(sitemapPath, sitemap);
+    console.log(`✓ Generated sitemap.xml with ${articlesData.length + 1} URLs`);
     
     console.log('Done!');
 }
