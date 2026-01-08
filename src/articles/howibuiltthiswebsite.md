@@ -11,7 +11,7 @@ By Alexandre Robin
 
 ### Why create a personal website?
 
-As a developer and HR professional, I've always wanted a space to showcase my projects, share my thoughts, and connect with others in the tech community. After building bots and scrapers, I decided it was time to create my own digital home. This personal page serves as my portfolio, blog, and a way to document my journey in coding.
+As a Producer and selftaught developer, I've always wanted a space to showcase my projects, share my thoughts, and connect with others in the tech community. I've written two articles on freecodecamp before but I wanted to work on something more simple I could tailor to my needs. This personal page serves as my portfolio, blog, and a way to document my journey in coding.
 
 My goals were simple:
 
